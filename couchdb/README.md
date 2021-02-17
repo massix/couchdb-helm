@@ -1,15 +1,12 @@
 # CouchDB
 
-Apache CouchDB is a database featuring seamless multi-master sync, that scales
-from big data to mobile, with an intuitive HTTP/JSON API and designed for
-reliability.
+Apache CouchDB is a database featuring seamless multi-master sync, that scales from big data to mobile, with an
+intuitive HTTP/JSON API and designed for reliability.
 
-This chart deploys a CouchDB cluster as a StatefulSet. It creates a ClusterIP
-Service in front of the Deployment for load balancing by default, but can also
-be configured to deploy other Service types or an Ingress Controller. The
-default persistence mechanism is simply the ephemeral local filesystem, but
-production deployments should set `persistentVolume.enabled` to `true` to attach
-storage volumes to each Pod in the Deployment.
+This chart deploys a CouchDB cluster as a StatefulSet. It creates a ClusterIP Service in front of the Deployment for
+load balancing by default, but can also be configured to deploy other Service types or an Ingress Controller. The
+default persistence mechanism is simply the ephemeral local filesystem, but production deployments should
+set `persistentVolume.enabled` to `true` to attach storage volumes to each Pod in the Deployment.
 
 ## TL;DR
 
@@ -45,22 +42,22 @@ $ helm install \
   couchdb/couchdb
 ```
 
-This will create a Secret containing the admin credentials for the cluster.
-Those credentials can be retrieved as follows:
+This will create a Secret containing the admin credentials for the cluster. Those credentials can be retrieved as
+follows:
 
 ```bash
 $ kubectl get secret my-release-couchdb -o go-template='{{ .data.adminPassword }}' | base64 --decode
 ```
 
-If you prefer to configure the admin credentials directly you can create a
-Secret containing `adminUsername`, `adminPassword` and `cookieAuthSecret` keys:
+If you prefer to configure the admin credentials directly you can create a Secret containing `adminUsername`
+, `adminPassword` and `cookieAuthSecret` keys:
 
 ```bash
 $  kubectl create secret generic my-release-couchdb --from-literal=adminUsername=foo --from-literal=adminPassword=bar --from-literal=cookieAuthSecret=baz
 ```
 
-If you want to set the `adminHash` directly to achieve consistent salts between 
-different nodes you need to addionally add the key `password.ini` to the secret:
+If you want to set the `adminHash` directly to achieve consistent salts between different nodes you need to addionally
+add the key `password.ini` to the secret:
 
 ```bash
 $  kubectl create secret generic my-release-couchdb \
@@ -86,9 +83,8 @@ $ helm install \
   couchdb/couchdb
 ```
 
-This Helm chart deploys CouchDB on the Kubernetes cluster in a default
-configuration. The [configuration](#configuration) section lists
-the parameters that can be configured during installation.
+This Helm chart deploys CouchDB on the Kubernetes cluster in a default configuration.
+The [configuration](#configuration) section lists the parameters that can be configured during installation.
 
 > **Tip**: List all releases using `helm list`
 
@@ -100,19 +96,17 @@ To uninstall/delete the `my-release` Deployment:
 $ helm delete my-release
 ```
 
-The command removes all the Kubernetes components associated with the chart and
-deletes the release.
+The command removes all the Kubernetes components associated with the chart and deletes the release.
 
 ## Upgrading an existing Release to a new major version
 
-A major chart version change (like v0.2.3 -> v1.0.0) indicates that there is an
-incompatible breaking change needing manual actions.
+A major chart version change (like v0.2.3 -> v1.0.0) indicates that there is an incompatible breaking change needing
+manual actions.
 
 ### Upgrade to 3.0.0
 
-Since version 3.0.0 setting the CouchDB server instance UUID is mandatory.
-Therefore you need to generate a UUID and supply it as a value during the
-upgrade as follows:
+Since version 3.0.0 setting the CouchDB server instance UUID is mandatory. Therefore you need to generate a UUID and
+supply it as a value during the upgrade as follows:
 
 ```bash
 $ helm upgrade <release-name> \
@@ -123,8 +117,8 @@ $ helm upgrade <release-name> \
 
 ## Migrating from stable/couchdb
 
-This chart replaces the `stable/couchdb` chart previously hosted by Helm and continues the
-version semantics. You can upgrade directly from `stable/couchdb` to this chart using:
+This chart replaces the `stable/couchdb` chart previously hosted by Helm and continues the version semantics. You can
+upgrade directly from `stable/couchdb` to this chart using:
 
 ```bash
 $ helm repo add couchdb https://apache.github.io/couchdb-helm
@@ -133,13 +127,13 @@ $ helm upgrade my-release couchdb/couchdb
 
 ## Configuration
 
-The following table lists the most commonly configured parameters of the
-CouchDB chart and their default values:
+The following table lists the most commonly configured parameters of the CouchDB chart and their default values:
 
 |           Parameter             |             Description                               |                Default                 |
 |---------------------------------|-------------------------------------------------------|----------------------------------------|
 | `clusterSize`                   | The initial number of nodes in the CouchDB cluster    | 3                                      |
-| `couchdbConfig`                 | Map allowing override elements of server .ini config  | *See below*                            |
+| `couchdbConfig`                 | Map allowing override elements of server .ini config  | *See
+below*                            |
 | `allowAdminParty`               | If enabled, start cluster without admin account       | false (requires creating a Secret)     |
 | `createAdminSecret`             | If enabled, create an admin account and cookie secret | true                                   |
 | `schedulerName`                 | Name of the k8s scheduler (other than default)        | `nil`                                  |
@@ -149,8 +143,7 @@ CouchDB chart and their default values:
 | `enableSearch`                  | Adds a sidecar for Lucene-powered text search         | false                                  |
 
 You can set the values of the `couchdbConfig` map according to the
-[official configuration][4]. The following shows the map's default values and
-required options to set:
+[official configuration][4]. The following shows the map's default values and required options to set:
 
 |           Parameter             |             Description                                            |                Default                 |
 |---------------------------------|--------------------------------------------------------------------|----------------------------------------|
@@ -170,6 +163,7 @@ A variety of other parameters are also configurable. See the comments in the
 | `image.repository`                   | couchdb                                |
 | `image.tag`                          | 2.3.1                                  |
 | `image.pullPolicy`                   | IfNotPresent                           |
+| `imagePullSecrets`                   | [ ]                                    |
 | `searchImage.repository`             | kocolosk/couchdb-search                |
 | `searchImage.tag`                    | 0.1.0                                  |
 | `searchImage.pullPolicy`             | IfNotPresent                           |
@@ -215,9 +209,8 @@ A variety of other parameters are also configurable. See the comments in the
 
 General feedback is welcome at our [user][1] or [developer][2] mailing lists.
 
-Apache CouchDB has a [CONTRIBUTING][3] file with details on how to get started
-with issue reporting or contributing to the upkeep of this project. In short,
-use GitHub Issues, do not report anything on Docker's website.
+Apache CouchDB has a [CONTRIBUTING][3] file with details on how to get started with issue reporting or contributing to
+the upkeep of this project. In short, use GitHub Issues, do not report anything on Docker's website.
 
 ## Non-Apache CouchDB Development Team Contributors
 
@@ -238,7 +231,11 @@ use GitHub Issues, do not report anything on Docker's website.
 - [@Pinpin31.](https://github.com/Pinpin31)
 
 [1]: http://mail-archives.apache.org/mod_mbox/couchdb-user/
+
 [2]: http://mail-archives.apache.org/mod_mbox/couchdb-dev/
+
 [3]: https://github.com/apache/couchdb/blob/master/CONTRIBUTING.md
+
 [4]: https://docs.couchdb.org/en/stable/config/index.html
+
 [5]: https://docs.couchdb.org/en/latest/setup/cluster.html#preparing-couchdb-nodes-to-be-joined-into-a-cluster

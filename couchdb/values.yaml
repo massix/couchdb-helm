@@ -42,7 +42,7 @@ serviceAccount:
   enabled: true
   create: true
 # name:
-# imagePullSecrets:
+imagePullSecrets: [ ]
 # - name: myimagepullsecret
 
 ## The storage volume used by each Pod in the StatefulSet. If a

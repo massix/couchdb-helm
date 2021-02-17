@@ -30,6 +30,8 @@ spec:
       {{- if .Values.serviceAccount.enabled }}
       serviceAccountName: {{ template "couchdb.serviceAccount" . }}
       {{- end }}
+      imagePullSecrets:
+{{- .Values.imagePullSecrets | toYaml | nindent 8 }}
       initContainers:
         - name: init-copy
           image: "{{ .Values.initImage.repository }}:{{ .Values.initImage.tag }}"
